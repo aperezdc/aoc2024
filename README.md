@@ -13,7 +13,9 @@ My solutions for [Advent of Code 2024](https://adventofcode.com/2024):
 Languages Used
 --------------
 
-- [Python](https://python.org) (version 3.12)-
+- [Python](https://python.org) (version 3.12).
+- Turbo Modula-2 for CP/M, running on MSX-DOS/Nextor. Development aided
+  by [NTVCM](https://github.com/davidly/ntvcm).
 
 
 Licensing
