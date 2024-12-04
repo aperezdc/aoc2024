@@ -15,6 +15,7 @@ Languages Used
 
 - [Lua](https://lua.org) (version 5.4).
 - [Python](https://python.org) (version 3.12).
+- [Swift](https://swift.org) (version 6.0.2).
 - Turbo Modula-2 for CP/M, running on MSX-DOS/Nextor. Development aided
   by [NTVCM](https://github.com/davidly/ntvcm).
 
