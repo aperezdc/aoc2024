@@ -13,6 +13,7 @@ My solutions for [Advent of Code 2024](https://adventofcode.com/2024):
 Languages Used
 --------------
 
+- [Kuroko](https://kuroko-lang.github.io) (version 1.4.0).
 - [Lua](https://lua.org) (version 5.4).
 - [Python](https://python.org) (version 3.12).
 - [Swift](https://swift.org) (version 6.0.2).

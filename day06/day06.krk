@@ -1,0 +1,66 @@
+#! /usr/bin/env kuroko
+#
+# SPDX-License-Identifier: MIT
+#
+
+from fileio import stdin
+
+let rows = 0
+let cols = 0
+let obstacles = set()
+let x = 0
+let y = 0
+let d = '^'
+
+for line in stdin.readlines():
+	line = line.strip()
+	if cols != 0:
+		assert cols == len(line)
+	else:
+		cols = len(line)
+	for col, ch in enumerate(line):
+		if ch == '#':
+			obstacles.add((col, rows))
+		elif ch == '^':
+			x = col
+			y = rows
+	rows += 1
+
+print("Map has", rows, "rows,", cols, "columns,", len(obstacles), "obstacles")
+print("Guard starts at row", y, "column", x)
+
+let turn = {'^':'>', '>':'v', 'v':'<', '<':'^'}
+
+let visited = set()
+
+while True:
+	visited.add((x, y))
+
+	let nx = x
+	let ny = y
+
+	if d == '^':
+		ny -= 1
+		if ny < 0:
+			break
+	elif d == '<':
+		nx -= 1
+		if nx < 0:
+			break
+	elif d == '>':
+		nx += 1
+		if nx >= cols:
+			break
+	elif d == 'v':
+		ny += 1
+		if ny >= rows:
+			break
+
+	if (nx, ny) in obstacles:
+		d = turn[d]
+		continue
+
+	x = nx
+	y = ny
+
+print(len(visited))
