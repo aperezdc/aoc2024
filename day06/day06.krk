@@ -8,9 +8,8 @@ from fileio import stdin
 let rows = 0
 let cols = 0
 let obstacles = set()
-let x = 0
-let y = 0
-let d = '^'
+let xstart = 0
+let ystart = 0
 
 for line in stdin.readlines():
 	line = line.strip()
@@ -22,45 +21,71 @@ for line in stdin.readlines():
 		if ch == '#':
 			obstacles.add((col, rows))
 		elif ch == '^':
-			x = col
-			y = rows
+			xstart = col
+			ystart = rows
 	rows += 1
 
 print("Map has", rows, "rows,", cols, "columns,", len(obstacles), "obstacles")
-print("Guard starts at row", y, "column", x)
+print("Guard starts at row", ystart, "column", xstart)
 
 let turn = {'^':'>', '>':'v', 'v':'<', '<':'^'}
 
-let visited = set()
+def walk(checkloop=False):
+	let visited = set()
+	let visitedAndDir = set()
+	let d = '^'
+	let x = xstart
+	let y = ystart
 
-while True:
-	visited.add((x, y))
+	while True:
+		if checkloop and (x, y, d) in visitedAndDir:
+			return visited, True
 
-	let nx = x
-	let ny = y
+		visited.add((x, y))
+		visitedAndDir.add((x, y, d))
 
-	if d == '^':
-		ny -= 1
-		if ny < 0:
-			break
-	elif d == '<':
-		nx -= 1
-		if nx < 0:
-			break
-	elif d == '>':
-		nx += 1
-		if nx >= cols:
-			break
-	elif d == 'v':
-		ny += 1
-		if ny >= rows:
-			break
+		let nx = x
+		let ny = y
 
-	if (nx, ny) in obstacles:
-		d = turn[d]
-		continue
+		if d == '^':
+			ny -= 1
+			if ny < 0:
+				break
+		elif d == '<':
+			nx -= 1
+			if nx < 0:
+				break
+		elif d == '>':
+			nx += 1
+			if nx >= cols:
+				break
+		elif d == 'v':
+			ny += 1
+			if ny >= rows:
+				break
 
-	x = nx
-	y = ny
+		if (nx, ny) in obstacles:
+			d = turn[d]
+			continue
 
-print(len(visited))
+		x = nx
+		y = ny
+
+	return visited, False
+
+let numLoopObstacles = 0
+for y in range(rows):
+	for x in range(cols):
+		if (x, y) == (xstart, ystart):
+			continue
+		if (x, y) in obstacles:
+			continue
+		obstacles.add((x, y))
+		let _, looped = walk(True)
+		if looped:
+			numLoopObstacles += 1
+		obstacles.remove((x, y))
+
+
+print("Part 1:", len(walk()[0]))
+print("Part 2:", numLoopObstacles)
